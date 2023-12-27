@@ -53,6 +53,34 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      res
+        .status(401)
+        .json({ success: false, response: "Invalid email or password" });
+    }
+    res.status(200).json({
+      success: true,
+      response: {
+        email: user.email,
+        id: user._id,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      response: {
+        message: "Could not log in",
+        errors: err.errors,
+      },
+    });
+  }
+});
+
 router.get("/users", async (req, res) => {
   try {
     await UserModel.find()
