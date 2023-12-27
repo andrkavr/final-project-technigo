@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const crypto = require("crypto"); //  Imports the Node.js crypto library for generating secure random strings.
+import bcrypt from "bcrypt";
 
 // Import the Schema class from the Mongoose library
 // Destructures the Schema class from the Mongoose library, allowing us to create a schema.
@@ -37,6 +38,26 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
+
+//Static signup method
+// userSchema.statics.register = async function (email, username, password) {
+//   const exists = await this.findOne({ $or: [{ email }, { username }] });
+
+//   if (exists) {
+//     throw new Error(
+//       `User with ${
+//         exists.username === username ? "username" : "email"
+//       } already exists`
+//     );
+//   }
+
+//   const salt = await bcrypt.genSalt(10);
+//   const hash = await bcrypt.hash(password, salt);
+
+//   const user = await this.create({ email, username, password: hash });
+
+//   return user;
+// };
 
 // Create a Mongoose model named 'UserModel' based on the 'userSchema' for the 'users' collection
 // This model is used to interact with the "users" collection in the MongoDB database. It allows you to perform CRUD operations on user documents and provides methods for data validation based on the schema.

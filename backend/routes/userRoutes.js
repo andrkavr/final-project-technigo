@@ -35,14 +35,16 @@ router.post("/register", async (req, res) => {
       );
     }
 
+    const salt = await bcrypt.genSalt(10);
+
     const user = new UserModel({
       email,
       username,
-      password: bcrypt.hashSync(password, 10),
+      password: bcrypt.hashSync(password, salt),
     });
 
     await user.save();
-    res.status(201).json({ id: user._id, accessToken: user.accessToken });
+    res.status(201).json({ id: user._id, email: user.email });
   } catch (err) {
     res.status(400).json({
       message: "Could not create user",
