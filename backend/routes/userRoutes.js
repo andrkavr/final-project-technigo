@@ -2,8 +2,14 @@ import express from "express";
 import listEndpoints from "express-list-endpoints";
 import { UserModel } from "../models/UserModel";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 const router = express.Router();
+
+const createJWT = (_id) => {
+  jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "2d" });
+};
 
 // Route to get available endpoints
 router.get("/", (req, res) => {
@@ -44,13 +50,14 @@ router.post("/register", async (req, res) => {
     });
 
     await user.save();
-    res
-      .status(201)
-      .json({
-        id: user._id,
-        email: user.email,
-        response: "You have successfully been registered.",
-      });
+    //create a token
+    const token = createJWT(user._id);
+    res.status(201).json({
+      id: user._id,
+      email: user.email,
+      response: "You have successfully been registered.",
+      token,
+    });
   } catch (err) {
     res.status(400).json({
       message: "Could not create user",
