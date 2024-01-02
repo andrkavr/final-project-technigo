@@ -5,6 +5,7 @@ export const LoginBtn = () => {
   const onLoginClick = () => {
     navigate("/login");
   };
+
   return (
     <button
       onClick={onLoginClick}

@@ -6,14 +6,15 @@ export const Login = () => {
   const [password, setPassword] = useState("");
 
   const storeHandleLogin = userStore((state) => state.handleLogin);
+  const isLoggedIn = userStore.getState().isLoggedIn;
 
   const onLoginClick = async () => {
     console.log("first");
     try {
       await storeHandleLogin(email, password);
-      const isLoggedIn = userStore.getState().isLoggedIn;
       if (isLoggedIn) {
         alert("You have been successfully logged in!");
+        console.log("isLoggedIn: " + isLoggedIn);
       }
     } catch (error) {
       alert("An error has occurred: " + error);
@@ -52,6 +53,14 @@ export const Login = () => {
             className="bg-green-600 rounded-md py-2 px-3 hover:bg-green-500 cursor-pointer"
           >
             Submit
+          </button>
+          <button
+            onClick={() => {
+              console.log(isLoggedIn);
+              alert(email, password);
+            }}
+          >
+            Is user logged in?
           </button>
         </div>
       </div>

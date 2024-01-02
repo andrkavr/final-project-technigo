@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LoginBtn } from "./LoginBtn";
+import { LogoutBtn } from "./LogoutBtn";
+import { userStore } from "../stores/userStore";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ export const Navbar = () => {
   const onMobileNavClick = () => {
     setOpenMobileNav(!openMobileNav);
   };
+
+  const isLoggedIn = userStore.getState().isLoggedIn;
 
   const navlinks = [
     { linkName: "About", linkRoute: "/about" },
@@ -40,7 +44,8 @@ export const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between">
         <div
           onClick={() => navigate("/")}
-          className="text-white font-bold text-xl cursor-pointer">
+          className="text-white font-bold text-xl cursor-pointer"
+        >
           Piggyback
         </div>
         <ul className="hidden md:flex space-x-4">
@@ -49,14 +54,13 @@ export const Navbar = () => {
               <Link to={link.linkRoute}>{link.linkName}</Link>
             </li>
           ))}
-          <li>
-            <LoginBtn />
-          </li>
+          <li>{isLoggedIn ? <LogoutBtn /> : <LoginBtn />}</li>
         </ul>
 
         {/* Add a responsive menu button for smaller screens */}
         <div className="md:hidden">
-          <LoginBtn />
+          {isLoggedIn ? <LogoutBtn /> : <LoginBtn />}
+
           <button className="text-white pl-5" onClick={onMobileNavClick}>
             {/* Add a responsive menu icon, e.g., a hamburger icon */}
             {openMobileNav ? <>&#x2715;</> : <>&#9776; </>}

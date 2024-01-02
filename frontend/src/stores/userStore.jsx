@@ -118,6 +118,7 @@ export const userStore = create((set, get) => ({
   handleLogout: () => {
     // Clear user information and set isLoggedIn to false.
     set({ username: "", accessToken: null, isLoggedIn: false });
+    alert("Logged out");
     // Remove the accessToken from localStorage.
     localStorage.removeItem("accessToken");
     // Additional logout logic can be added here if needed.
