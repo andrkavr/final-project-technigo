@@ -44,7 +44,13 @@ router.post("/register", async (req, res) => {
     });
 
     await user.save();
-    res.status(201).json({ id: user._id, email: user.email });
+    res
+      .status(201)
+      .json({
+        id: user._id,
+        email: user.email,
+        response: "You have successfully been registered.",
+      });
   } catch (err) {
     res.status(400).json({
       message: "Could not create user",
@@ -68,6 +74,7 @@ router.post("/login", async (req, res) => {
       response: {
         email: user.email,
         id: user._id,
+        response: "Successfully logged in.",
       },
     });
   } catch (err) {
