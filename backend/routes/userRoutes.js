@@ -72,8 +72,15 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await UserModel.findOne({ email });
+    if (!email || !password) {
+      // if so, set http status to a 400code
+      res.status(400);
+      // and throw new error with some info
+      throw new Error("Please enter both email and password");
+    }
 
+    const user = await UserModel.findOne({ email });
+    const loginToken = createJWT(user._id);
     if (!user || !bcrypt.compareSync(password, user.password)) {
       res
         .status(401)
@@ -84,6 +91,7 @@ router.post("/login", async (req, res) => {
       response: {
         email: user.email,
         id: user._id,
+        loginToken,
         response: "Successfully logged in.",
       },
     });
