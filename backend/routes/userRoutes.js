@@ -51,7 +51,7 @@ router.post("/register", async (req, res) => {
 
     await user.save();
     //create a token
-    const token = createJWT(user._id);
+    const token = await createJWT(user._id);
     res.status(201).json({
       id: user._id,
       email: user.email,
