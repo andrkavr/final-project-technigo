@@ -3,12 +3,14 @@ import listEndpoints from "express-list-endpoints";
 import { UserModel } from "../models/UserModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import "dotenv/config";
+import dotenv from "dotenv"; // Import dotenv for environment variables
+dotenv.config(); // Load environment variables from the .env file
 
 const router = express.Router();
+const jwtSecret = process.env.JWT_SECRET;
 
 const createJWT = (_id) => {
-  jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "2d" });
+  jwt.sign({ _id }, jwtSecret, { expiresIn: "2d" });
 };
 
 // Route to get available endpoints
