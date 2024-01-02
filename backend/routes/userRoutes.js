@@ -62,6 +62,7 @@ router.post("/register", async (req, res) => {
     res.status(400).json({
       message: "Could not create user",
       errors: err.errors,
+      problem: err,
     });
   }
 });
