@@ -10,7 +10,7 @@ const router = express.Router();
 const jwtSecret = process.env.JWT_SECRET;
 
 const createJWT = (_id) => {
-  jwt.sign({ _id }, jwtSecret, { expiresIn: "2d" });
+  return jwt.sign({ _id }, jwtSecret, { expiresIn: "3d" });
 };
 
 // Route to get available endpoints
