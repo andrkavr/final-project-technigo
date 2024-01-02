@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { userStore } from "../stores/userStore";
 
 export const Register = () => {
   const [username, setUsername] = useState("");
@@ -6,7 +7,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [passMatch, setPassMatch] = useState("");
 
-  const passwordMatchCheck = (e) => {
+  const passwordMatchCheck = async (e) => {
     if (!username || !password || !email) {
       alert("Please enter email, username and password");
       return;

@@ -2,7 +2,9 @@
 import { create } from "zustand";
 
 // Get the backend API endpoint from the environment variables.
-const apiEnv = import.meta.env.VITE_BACKEND_API;
+//TEMPORARY CHANGE FOR TESTING. CHANGE BACK ASAP
+// const apiEnv = import.meta.env.VITE_BACKEND_API;
+const apiEnv = import.meta.env.VITE_BACKUP_API;
 
 // Create a Zustand store for user-related state and actions.
 export const userStore = create((set, get) => ({
@@ -69,10 +71,10 @@ export const userStore = create((set, get) => ({
   },
 
   // LOGIN
-  handleLogin: async (username, password) => {
-    // Check if both username and password are provided and display an alert if not.
-    if (!username || !password) {
-      alert("Please enter both username and password");
+  handleLogin: async (email, password) => {
+    // Check if both email and password are provided and display an alert if not.
+    if (!email || !password) {
+      alert("Please enter both email and password");
       return;
     }
 
@@ -83,15 +85,16 @@ export const userStore = create((set, get) => ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       // Parse the response data as JSON.
       const data = await response.json();
+      console.log(data);
       if (data.success) {
         // Update the state with username, accessToken, and set isLoggedIn to true.
         set({
-          username,
+          email,
           accessToken: data.response.accessToken,
           isLoggedIn: true,
         });
@@ -99,7 +102,7 @@ export const userStore = create((set, get) => ({
         localStorage.setItem("accessToken", data.response.accessToken);
         // Display a success alert.
         alert("Login successful!");
-        console.log("Logging in with:", username, password);
+        console.log("Logging in with:", email, password);
       } else {
         // Display an error message from the server or a generic message.
         alert(data.response || "Login failed");
